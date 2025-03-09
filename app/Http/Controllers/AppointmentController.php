@@ -12,14 +12,11 @@ class AppointmentController extends Controller
     
     public function index(Request $request)
     {
-        
-        if($request->user()->hasRole('doctor')) {
-            $appointments = Appointment::where('doctor_id', $request->user()->id)->get();
-        }elseif($request->user()->hasRole('patient')) {
-            $appointments = Appointment::where('patient_id', $request->user()->id)->get();
-        }else {
-            $appointments = Appointment::all();
-        }
+          $appointments= Appointment::when($request->user()->hasRole('doctor'),function ($query) use ($request){
+            return $query->where('doctor_id',$request->user()->id);
+        })->when($request->user()->hasRole('patient'),function ($query) use ($request){
+            return $query->where('patient_id',$request->user()->id);
+        })->get();
         return view('appointments.index', ['appointments' => $appointments]);
     }
 
