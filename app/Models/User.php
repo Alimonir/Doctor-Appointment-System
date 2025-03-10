@@ -36,7 +36,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Doctor::class);
     }
-    
+    public function slots(){
+        return $this->hasMany(Slot::class);
+    }
     /**
      * Get the attributes that should be cast.
      *

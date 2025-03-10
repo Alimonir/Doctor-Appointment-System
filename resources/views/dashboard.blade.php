@@ -1,7 +1,10 @@
 <x-layout>
-    <a class="btn" href="{{route('appointments.index')}}">appointments</a>
     @can('create_appointment')
-        <div>create_appointment</div>
+    <a class="btn bg-green-500 text-white px-2 py-1 rounded" href="{{route('appointments.index')}}">My Appointments</a>
+     @endcan
+
+    @can('view_appointment')
+    <a class="btn bg-green-500 text-white px-2 py-1 rounded" href="{{route('appointments.index')}}">See Your Appointments</a>
      @endcan
     @can('view_appointment')
         <div>view_appointment</div>

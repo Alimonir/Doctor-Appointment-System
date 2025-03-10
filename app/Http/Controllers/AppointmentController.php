@@ -26,7 +26,7 @@ class AppointmentController extends Controller
     public function create()
     {
         $doctors = User::role('doctor')->get();
-        return view('appointments.create', ['doctors' => $doctors]);
+        return view('appointments.create', compact('doctors'));
     }
 
     /**
@@ -39,13 +39,25 @@ class AppointmentController extends Controller
             'doctor_id' => 'required',
             'appointment_time' => 'required',
         ]);  
+        // Ensure the selected slot is valid
+        $doctor = User::findOrFail($request->doctor_id);
+        $validSlot = $doctor->slots()->where('start_at','<=', $request->appointment_time)->where('end_at', '>=', $request->appointment_time)->exists();
+        if (!$validSlot) {
+            return redirect()->back()->with('error', 'Invalid slot selected.');
+        }
 
+        // Check if the patient already has an appointment at the same time
+        $existingAppointment = Appointment::where('patient_id', Auth::id())->where('appointment_time', $request->appointment_time)->exists();
+        if ($existingAppointment) {
+            return redirect()->back()->with('error', 'You already have an appointment at this time.');
+        }
+        
         // Create a new appointment
        Appointment::create([
             'patient_id' => Auth::id(),
             'doctor_id' => $request->doctor_id,                                           
             'appointment_time' => $request->appointment_time,
-            'status' => 'pending',
+            'status' => 'pending',  
         ]);
 
         return redirect()->route('appointments.index');
@@ -62,5 +74,22 @@ class AppointmentController extends Controller
         $appointment->save();
         return redirect()->route('appointments.index');
     }
-    
+    public function destroy(Appointment $appointment){
+           // Check if the logged-in user is the patient
+           if(Auth::id() === $appointment->patient_id){
+            $appointment->delete();
+            return redirect()->route('appointments.index');
+           }
+           // Check if the appointment was created within the last 2 hours
+           if($appointment->created_at->diffInHours(now()) > 2){
+            return redirect()->route('appointments.index');
+           }
+           $appointment->delete();
+           return redirect()->route('appointments.index')->with('success', 'appointment. deleted successfully');
+    }
+
+    public function getDoctorSlots(User $doctor){
+        $slots = $doctor->slots()->get();
+        return response()->json($slots);
+    }
 }
