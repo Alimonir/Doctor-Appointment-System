@@ -40,8 +40,14 @@
                             </span>
                         </td>
                         <td class="border p-3">
-                            <span> start_time </span>
-                            <span> end_time</span>
+                            {{-- delete appointment --}}
+                            <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition">
+                                    Delete
+                                </button>
+                            </form>
                         </td>
 
                         @can('edit_appointment')

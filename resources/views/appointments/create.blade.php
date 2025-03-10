@@ -1,7 +1,11 @@
 <x-layout>
     <form action="{{ route('appointments.store') }}" method="post">
         @csrf
-
+        @session('error')
+        <div class="bg-red-500 text-white p-3 rounded mb-4">
+            {{ session('error') }}
+        </div>                                               
+        @endsession
         <!-- Doctor Selection -->
         <div class="mb-4">
             <label for="doctor_id" class="block text-sm font-medium text-gray-700">Doctor</label>

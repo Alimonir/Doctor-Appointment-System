@@ -22,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth','role:patient'])->group(function () {
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointments.create');
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+    Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy'])->name('appointments.destroy');
 });
 Route::middleware(['auth','role:doctor'])->group(function () {
     Route::post('/appointments/{appointment}/status', [AppointmentController::class, 'status'])->name('appointments.status');
