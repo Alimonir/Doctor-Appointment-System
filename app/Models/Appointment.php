@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Appointment extends Model
 {
+    use Notifiable;
     protected $fillable = [
         'patient_id',
         'doctor_id',
@@ -22,6 +24,11 @@ class Appointment extends Model
     {
         return $this->belongsTo(User::class, 'doctor_id');
     }
+
+    public function doctor()
+{
+    return $this->belongsTo(User::class, 'doctor_id');
+}
 
     public function slot()
     {

@@ -1,18 +1,18 @@
 <?php
-
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\SlotController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['permission:create_appointment|view_appointment|edit_appointment|delete_appointment|delete_user|settings'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['permission:create_appointment|view_appointment|edit_appointment|delete_appointment|delete_user|settings'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
@@ -50,6 +50,25 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::post('/notifications/read', function (\Illuminate\Http\Request $request) {
+    $notification = Auth::user()->unreadNotifications->find($request->id);
+    if ($notification) {
+        $notification->markAsRead();
+    }
+    return response()->json(['success' => true]);
+})->name('notifications.read');
+
+Route::get('/lang/{locale}', function (string $locale) {
+    if (! in_array($locale, ['en', 'ar'])) {
+        abort(400);
+    }
+    Session::put('locale', $locale);
+    App::setLocale($locale);
+    return response()->json([
+        'session_locale' => Session::get('locale'),
+        'app_locale' => App::getLocale()
+    ]);})->name('locale.switch');
 
 
 require __DIR__.'/auth.php';

@@ -22,6 +22,7 @@ class RoleSeeder extends Seeder
         // Create permissions
         $permissions = [
             'create_appointment',
+            'create_slot',
             'view_appointment',
             'edit_appointment',
             'delete_appointment',
@@ -37,7 +38,7 @@ class RoleSeeder extends Seeder
         $adminRole->givePermissionTo(Permission::all());
 
         // Assign specific permissions to doctor
-        $doctorRole->givePermissionTo([ 'view_appointment', 'edit_appointment', 'delete_appointment']);
+        $doctorRole->givePermissionTo([ 'view_appointment', 'edit_appointment','create_slot']);
 
         // Assign view-only permission to patient
         $patientRole->givePermissionTo(['create_appointment', 'view_appointment','delete_appointment']);
@@ -54,6 +55,5 @@ class RoleSeeder extends Seeder
         // Assign admin role
         $admin->assignRole('admin');
 
-        echo "✅ Roles, permissions, and admin user seeded successfully!\n";
     }
 }

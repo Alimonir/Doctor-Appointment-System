@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class SlotController extends Controller
 {
     public function index(Request $request){
-        $slots = Slot::where('user_id',Auth::id())->get();
-        return view('slots.index',compact('slots'));
+       
     }
     public function create(){
         return view('slots.create');
@@ -26,7 +25,7 @@ class SlotController extends Controller
             'end_at'=>$request->end_at,
             'user_id'=>Auth::id(),
         ]);
-        return redirect()->route('slots.index');
+        return redirect()->route('dashboard');
     }
     
     public function edit(Slot $slot){
@@ -42,11 +41,11 @@ class SlotController extends Controller
             'start_at'=>$request->start_at,
             'end_at'=>$request->end_at,
         ]);
-        return redirect()->route('slots.index');
+        return redirect()->route('dashboard');
     }
     public function destroy(Slot $slot){
             $slot->delete();
-        return redirect()->route('slots.index');
+        return redirect()->route('dashboard');
     }
     
 }

@@ -10,7 +10,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     
-    use HasRoles;
+    use HasRoles,Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -39,6 +39,9 @@ class User extends Authenticatable
     public function slots(){
         return $this->hasMany(Slot::class);
     }
+
+    
+
     /**
      * Get the attributes that should be cast.
      *

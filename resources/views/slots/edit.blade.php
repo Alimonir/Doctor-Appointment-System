@@ -1,4 +1,4 @@
-<x-layout>
+<x-simpleheader>
     <h1 class="text-2xl font-bold mb-6">Edit Slot</h1>
     <form action="{{route('slots.update',$slot->id)}}" method="post">
         @csrf
@@ -23,4 +23,4 @@
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Sumbit</button>
 
     </form>
-</x-layout> 
+</x-simpleheader> 

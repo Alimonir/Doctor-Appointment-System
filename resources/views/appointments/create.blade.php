@@ -1,4 +1,4 @@
-<x-layout>
+<x-simpleheader>
     <form action="{{ route('appointments.store') }}" method="post">
         @csrf
         @session('error')
@@ -72,4 +72,4 @@
 }
 
     </script>
-</x-layout>
+</x-simpleheader>

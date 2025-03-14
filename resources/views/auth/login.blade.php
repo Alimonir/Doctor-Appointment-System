@@ -1,4 +1,4 @@
-<x-layout>
+<x-simpleheader>
     <div class="flex min-h-screen items-center justify-center bg-gray-100 px-6 py-12">
         <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
             <div class="text-center">
@@ -57,4 +57,4 @@
             </p>
         </div>
     </div>
-</x-layout>
+</x-simpleheader>

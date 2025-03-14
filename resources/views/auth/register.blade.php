@@ -1,8 +1,8 @@
-<x-layout>
+<x-simpleheader>
     <div class="flex min-h-screen flex-col justify-center items-center px-6 py-12 bg-gray-100">
         <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-md">
             <div class="text-center">
-                <img class="mx-auto h-16 w-16 rounded-full shadow-sm" src="{{ asset('storage/logo.jpg') }}" alt="Opel">
+                <img class="mx-auto h-16 w-16 rounded-full shadow-sm" src="{{ asset('storage/logo.jpg') }}" alt="logo">
                 <h2 class="mt-4 text-2xl font-bold text-gray-900">Sign Up</h2>
             </div>
 
@@ -103,4 +103,4 @@
             }
         });
     </script>
-</x-layout>
+</x-simpleheader>
